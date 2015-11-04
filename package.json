@@ -1,0 +1,33 @@
+{
+  "name": "react-modal2",
+  "version": "0.0.0",
+  "description": "Stateless modal component for React.",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "keywords": [
+    "react",
+    "modal",
+    "dialog",
+    "stateless"
+  ],
+  "author": "James Kyle <me@thejameskyle.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "a11y-focus-scope": "^1.1.0",
+    "a11y-focus-store": "^1.0.0",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-gateway": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.0",
+    "karma": "^0.13.15",
+    "karma-browserify": "^4.4.0",
+    "karma-mocha": "^0.2.0",
+    "karma-mocha-reporter": "^1.1.1",
+    "mocha": "^2.3.3",
+    "react-addons-test-utils": "^0.14.2"
+  }
+}
