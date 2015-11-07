@@ -93,14 +93,26 @@ export default class App extends React.Component {
 }
 ```
 
+## Options
+
+| Name | Type | Description |
+| --- | --- | --- | --- |
+| `onClose` | `Function` | Required. A callback to handle an event that is attempting to close the modal. |
+| `closeOnEsc` | `Boolean` | Should this modal call `onClose` when the `esc` key is pressed? |
+| `closeOnBackdropClick` | `Boolean` | Should this modal call `onClose` when the backdrop is clicked? |
+| `backdropClassName` | `String` | An optional `className` for the backdrop element. |
+| `modalClassName` | `String` | An optional `className` for the modal element. |
+| `backdropStyles` | `Object` | Optional `style` for the backdrop element. |
+| `modalStyles` | `Object` | Optional `style` for the modal element. |
+
 ## Accessibility
 
-One of `react-modal2`'s opinions is that modals should be as accessible as
+One of ReactModal2's opinions is that modals should be as accessible as
 possible. It does much of the work for you, but there's one little thing you
 need to help it with.
 
 In order to "hide" your application from screenreaders while a modal is open
-you need to let `react-modal2` what the root element for your application is.
+you need to let ReactModal2 what the root element for your application is.
 
 > Note: The root element should not be `document.body`.
 
@@ -109,3 +121,11 @@ import ReactModal2 from 'react-modal2';
 
 ReactModal2.setApplicationElement(document.getElementById('root'));
 ```
+
+## FAQ
+
+#### How do I close the modal?
+
+ReactModal2 is designed to have no state, if you put it in the DOM then it will
+render. So if you don't want to show it then simply do not render it in your
+parent component. For this reason there is no `isOpen` property to pass.
