@@ -1,6 +1,11 @@
 # react-modal2
 
-> Stateless modal component for React.
+> Simple modal component for React. 
+
+- Unopionated
+- Stateless (dumb component)
+- Accessible
+- Built via [reusable](https://github.com/thejameskyle/react-gateway) [collection](https://github.com/thejameskyle/a11y-focus-scope) of [modules](https://github.com/thejameskyle/a11y-focus-store)
 
 ## Installation
 
