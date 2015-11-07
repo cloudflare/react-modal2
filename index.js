@@ -8,14 +8,14 @@ var focusStore = require('a11y-focus-store');
 
 var applicationElement;
 
-function setApplicationElement() {
+function setApplicationElement(element) {
   applicationElement = element;
 }
 
 function setFocusOn(element) {
   focusStore.storeFocus();
   if (applicationElement) applicationElement.setAttribute('aria-hidden', 'true');
-  focusScope.scopeFocus(this.refs.modal);
+  focusScope.scopeFocus(element);
 }
 
 function resetFocus() {
