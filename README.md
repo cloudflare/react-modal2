@@ -92,3 +92,20 @@ export default class App extends React.Component {
   }
 }
 ```
+
+## Accessibility
+
+One of `react-modal2`'s opinions is that modals should be as accessible as
+possible. It does much of the work for you, but there's one little thing you
+need to help it with.
+
+In order to "hide" your application from screenreaders while a modal is open
+you need to let `react-modal2` what the root element for your application is.
+
+> Note: The root element should not be `document.body`.
+
+```js
+import ReactModal2 from 'react-modal2';
+
+ReactModal2.setApplicationElement(document.getElementById('root'));
+```
