@@ -97,7 +97,7 @@ export default class App extends React.Component {
 
 | Name | Type | Description |
 | --- | --- | --- | --- |
-| `onClose` | `Function` | Required. A callback to handle an event that is attempting to close the modal. |
+| `onClose` | `Function` | **Required.** A callback to handle an event that is attempting to close the modal. |
 | `closeOnEsc` | `Boolean` | Should this modal call `onClose` when the `esc` key is pressed? |
 | `closeOnBackdropClick` | `Boolean` | Should this modal call `onClose` when the backdrop is clicked? |
 | `backdropClassName` | `String` | An optional `className` for the backdrop element. |
