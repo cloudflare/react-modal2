@@ -81,13 +81,13 @@ module.exports = React.createClass({
     return React.createElement(ReactGateway, null,
       React.createElement('div', {
         className: this.props.backdropClassName,
-        styles: this.props.backdropStyles,
+        style: this.props.backdropStyles,
         onClick: this.handleBackdropClick
       },
         React.createElement('div', {
           ref: 'modal',
           className: this.props.modalClassName,
-          styles: this.props.modalStyles,
+          style: this.props.modalStyles,
           onClick: this.handleModalClick,
           tabIndex: '-1'
         },
