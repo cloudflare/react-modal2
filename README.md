@@ -55,8 +55,8 @@ this:
 However, you likely want to render the modal somewhere else in the DOM (in most
 cases at the end of the `document.body`.
 
-For this there is a separate library called `ReactGateway`. You can use it like
-this:
+For this there is a separate library called [`ReactGateway`](https://github.com/thejameskyle/react-gateway).
+You can use it like this:
 
 ```js
 <ReactGateway to={document.body}>
@@ -181,4 +181,13 @@ parent component. For this reason there is no `isOpen` property to pass.
 #### How do I render the modal elsewhere in the DOM?
 
 ReactModal2 will render whereever you put it, you need to use a separate library
-to render it in another location. `React
+to render it in another location. [`ReactGateway`](https://github.com/thejameskyle/react-gateway)
+is the recommended solution, it's easy as:
+
+```js
+<ReactGateway>
+  <ReactModal2 ...>
+    ...
+  </ReactModal2>
+</ReactGateway>
+```
