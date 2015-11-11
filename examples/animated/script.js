@@ -1,82 +1,84 @@
-'use strict';
+import React, {PropTypes} from 'react';
+import {render} from 'react-dom';
+import ReactGateway from 'react-gateway';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
+import ReactModal2 from '../../';
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactGateway = require('react-gateway');
-var CSSTransitionGroup = require('react-addons-css-transition-group');
-var ReactModal2 = require('../../');
+class Modal extends React.Component {
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    closeOnEsc: PropTypes.bool,
+    closeOnBackdropClick: PropTypes.bool
+  };
 
-var Modal = React.createClass({
-  propType: {
-    isOpen: React.PropTypes.bool.isRequired,
-    onRequestClose: React.PropTypes.func.isRequired,
-    onClose: React.PropTypes.func.isRequired,
-    closeOnEsc: React.PropTypes.bool,
-    closeOnBackdropClick: React.PropTypes.bool
-  },
+  static defaultProps = {
+    closeOnEsc: true,
+    closeOnBackdropClick: true
+  };
 
-  getDefaultProps: function() {
-    return {
-      closeOnEsc: true,
-      closeOnBackdropClick: true
-    };
-  },
-
-  handleClose: function() {
+  handleClose() {
     this.props.onClose();
-  },
+  }
 
-  render: function() {
-    return React.createElement(ReactGateway, null,
-      React.createElement(CSSTransitionGroup, {
-        transitionName: 'modal',
-        transitionAppear: true,
-        transitionAppearTimeout: 200,
-        transitionEnterTimeout: 200,
-        transitionLeaveTimeout: 200
-      },
-        this.props.isOpen && React.createElement(ReactModal2, {
-          key: 'modal',
+  render() {
+    return (
+      <ReactGateway>
+        <CSSTransitionGroup
+          transitionName='modal'
+          transitionAppear={true}
+          transitionAppearTimeout={200}
+          transitionEnterTimeout={200}
+          transitionLeaveTimeout={200}>
+          {this.props.isOpen && (
+            <ReactModal2
+              key='modal'
+              onClose={this.handleClose.bind(this)}
+              closeOnEsc={this.props.closeOnEsc}
+              closeOnBackdropClick={this.props.closeOnEsc}
 
-          onClose: this.handleClose,
-          closeOnEsc: this.props.closeOnEsc,
-          closeOnBackdropClick: this.props.closeOnEsc,
-
-          backdropClassName: 'modal-backdrop',
-          modalClassName: 'modal'
-        }, this.props.children)
-      )
+              backdropClassName={'modal-backdrop'}
+              modalClassName={'modal'}>
+              {this.props.children}
+            </ReactModal2>
+          )}
+        </CSSTransitionGroup>
+      </ReactGateway>
     );
   }
-});
+}
 
-var Application = React.createClass({
-  getInitialState: function() {
-    return {
-      isModalOpen: false
-    };
-  },
+class Application extends React.Component {
+  constructor() {
+    super();
+  }
 
-  handleOpen: function() {
+  state = {
+    isModalOpen: false
+  };
+
+  handleOpen() {
     this.setState({ isModalOpen: true });
-  },
+  }
 
-  handleClose: function() {
+  handleClose() {
     this.setState({ isModalOpen: false });
-  },
+  }
 
-  render: function() {
-    return React.createElement('div', null,
-      React.createElement('h1', null, 'ReactModal2 Example: Animated'),
-      React.createElement('button', { onClick: this.handleOpen }, 'Open Modal'),
-      React.createElement(Modal, { onClose: this.handleClose, isOpen: this.state.isModalOpen },
-        React.createElement('h1', null, 'Hello from Modal'),
-        React.createElement('button', { onClick: this.handleClose }, 'Close Modal')
-      )
+  render() {
+    return (
+      <div>
+        <h1>ReactModal2 Example: Animated</h1>
+        <button onClick={this.handleOpen.bind(this)}>Open Modal</button>
+        <Modal onClose={this.handleClose.bind(this)} isOpen={this.state.isModalOpen}>
+          <h1>Hello from Modal</h1>
+          <button onClick={this.handleClose.bind(this)}>Close Modal</button>
+        </Modal>
+      </div>
     );
   }
-});
+}
 
-var rootElement = document.getElementById('root');
+const rootElement = document.getElementById('root');
 ReactModal2.setApplicationElement(rootElement);
-ReactDOM.render(React.createElement(Application), rootElement);
+render(<Application/>, rootElement);
