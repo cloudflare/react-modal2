@@ -1,69 +1,74 @@
-'use strict';
+import React, {PropTypes} from 'react';
+import {render} from 'react-dom';
+import ReactGateway from 'react-gateway';
+import ReactModal2 from '../../';
 
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactGateway = require('react-gateway');
-var ReactModal2 = require('../../');
+class Modal extends React.Component {
+  static propTypes = {
+    onClose: PropTypes.func.isRequired,
+    closeOnEsc: PropTypes.bool,
+    closeOnBackdropClick: PropTypes.bool
+  };
 
-var Modal = React.createClass({
-  propType: {
-    onClose: React.PropTypes.func.isRequired,
-    closeOnEsc: React.PropTypes.bool,
-    closeOnBackdropClick: React.PropTypes.bool
-  },
+  static defaultProps = {
+    closeOnEsc: true,
+    closeOnBackdropClick: true
+  };
 
-  getDefaultProps: function() {
-    return {
-      closeOnEsc: true,
-      closeOnBackdropClick: true
-    };
-  },
-
-  handleClose: function() {
+  handleClose() {
     this.props.onClose();
-  },
+  }
 
-  render: function() {
-    return React.createElement(ReactGateway, null,
-      React.createElement(ReactModal2, {
-        onClose: this.handleClose,
-        closeOnEsc: this.props.closeOnEsc,
-        closeOnBackdropClick: this.props.closeOnEsc,
+  render() {
+    return (
+      <ReactGateway>
+        <ReactModal2
+          onClose={this.handleClose.bind(this)}
+          closeOnEsc={this.props.closeOnEsc}
+          closeOnBackdropClick={this.props.closeOnEsc}
 
-        backdropClassName: 'modal-backdrop',
-        modalClassName: 'modal'
-      }, this.props.children)
+          backdropClassName='modal-backdrop'
+          modalClassName='modal'>
+          {this.props.children}
+        </ReactModal2>
+      </ReactGateway>
     );
   }
-});
+}
 
-var Application = React.createClass({
-  getInitialState: function() {
-    return {
-      isModalOpen: false
-    };
-  },
+class Application extends React.Component {
+  constructor() {
+    super();
+  }
 
-  handleOpen: function() {
+  state = {
+    isModalOpen: false
+  };
+
+  handleOpen() {
     this.setState({ isModalOpen: true });
-  },
+  }
 
-  handleClose: function() {
+  handleClose() {
     this.setState({ isModalOpen: false });
-  },
+  }
 
-  render: function() {
-    return React.createElement('div', null,
-      React.createElement('h1', null, 'ReactModal2 Example: Basic'),
-      React.createElement('button', { onClick: this.handleOpen }, 'Open Modal'),
-      this.state.isModalOpen && React.createElement(Modal, { onClose: this.handleClose },
-        React.createElement('h1', null, 'Hello from Modal'),
-        React.createElement('button', { onClick: this.handleClose }, 'Close Modal')
-      )
+  render() {
+    return (
+      <div>
+        <h1>ReactModal2 Example: Basic</h1>
+        <button onClick={this.handleOpen.bind(this)}>Open Modal</button>
+        {this.state.isModalOpen && (
+          <Modal onClose={this.handleClose.bind(this)}>
+            <h1>Hello from Modal</h1>
+            <button onClick={this.handleClose.bind(this)}>Close Modal</button>
+          </Modal>
+        )}
+      </div>
     );
   }
-});
+}
 
-var rootElement = document.getElementById('root');
+const rootElement = document.getElementById('root');
 ReactModal2.setApplicationElement(rootElement);
-ReactDOM.render(React.createElement(Application), rootElement);
+render(<Application/>, rootElement);

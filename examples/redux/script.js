@@ -1,17 +1,15 @@
-'use strict';
-
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Redux = require('redux');
-var ReactRedux = require('react-redux');
-var ReactGateway = require('react-gateway');
-var ReactModal2 = require('../../');
+import React, {PropTypes} from 'react';
+import {render} from 'react-dom';
+import {createStore} from 'redux';
+import {Provider, connect} from 'react-redux';
+import ReactGateway from 'react-gateway';
+import ReactModal2 from '../../';
 
 /**
  * Constants
  */
 
-var ActionTypes = {
+const ActionTypes = {
   MODAL_OPEN: 'MODAL_OPEN',
   MODAL_CLOSE: 'MODAL_ClOSE'
 };
@@ -20,25 +18,21 @@ var ActionTypes = {
  * Actions
  */
 
-var actions = {
-  modalOpen: function() {
-    return { type: ActionTypes.MODAL_OPEN };
-  },
-  modalClose: function() {
-    return { type: ActionTypes.MODAL_CLOSE };
-  }
+const actions = {
+  modalOpen: () => ({ type: ActionTypes.MODAL_OPEN }),
+  modalClose: () => ({ type: ActionTypes.MODAL_CLOSE })
 };
 
 /**
  * Reducer
  */
 
-function reducer(state, action) {
-  if (!state) state = { isModalOpen: false };
+const initialState = { isModalOpen: false };;
 
+function reducer(state = initialState, action) {
   switch (action.type) {
-    case ActionTypes.MODAL_OPEN: return { isModalOpen: true };
-    case ActionTypes.MODAL_CLOSE: return { isModalOpen: false };
+    case ActionTypes.MODAL_OPEN: return { ...state, isModalOpen: true };
+    case ActionTypes.MODAL_CLOSE: return { ...state, isModalOpen: false };
     default: return state;
   }
 }
@@ -47,77 +41,81 @@ function reducer(state, action) {
  * Modal Component
  */
 
-var Modal = React.createClass({
-  propType: {
-    onClose: React.PropTypes.func.isRequired,
-    closeOnEsc: React.PropTypes.bool,
-    closeOnBackdropClick: React.PropTypes.bool
-  },
+class Modal extends React.Component {
+  static propTypes = {
+    onClose: PropTypes.func.isRequired,
+    closeOnEsc: PropTypes.bool,
+    closeOnBackdropClick: PropTypes.bool
+  };
 
-  getDefaultProps: function() {
-    return {
-      closeOnEsc: true,
-      closeOnBackdropClick: true
-    };
-  },
+  static defaultProps = {
+    closeOnEsc: true,
+    closeOnBackdropClick: true
+  };
 
-  handleClose: function() {
+  handleClose() {
     this.props.onClose();
-  },
+  }
 
-  render: function() {
-    return React.createElement(ReactGateway, null,
-      React.createElement(ReactModal2, {
-        onClose: this.handleClose,
-        closeOnEsc: this.props.closeOnEsc,
-        closeOnBackdropClick: this.props.closeOnEsc,
+  render() {
+    return (
+      <ReactGateway>
+        <ReactModal2
+          onClose={this.handleClose.bind(this)}
+          closeOnEsc={this.props.closeOnEsc}
+          closeOnBackdropClick={this.props.closeOnEsc}
 
-        backdropClassName: 'modal-backdrop',
-        modalClassName: 'modal'
-      }, this.props.children)
+          backdropClassName='modal-backdrop'
+          modalClassName='modal'>
+          {this.props.children}
+        </ReactModal2>
+      </ReactGateway>
     );
   }
-});
+}
 
 /**
  * Application Container
  */
 
-function getApplicationProps(state) {
-  return { isModalOpen: state.isModalOpen };
-}
-
-var Application = ReactRedux.connect(getApplicationProps)(React.createClass({
-  handleOpen: function() {
+class Application extends React.Component {
+  handleOpen() {
     this.props.dispatch(actions.modalOpen());
-  },
+  }
 
-  handleClose: function() {
+  handleClose() {
     this.props.dispatch(actions.modalClose());
-  },
+  }
 
-  render: function() {
-    return React.createElement('div', null,
-      React.createElement('h1', null, 'ReactModal2 Example: Redux'),
-      React.createElement('button', { onClick: this.handleOpen }, 'Open Modal'),
-      this.props.isModalOpen && React.createElement(Modal, { onClose: this.handleClose },
-        React.createElement('h1', null, 'Hello from Modal'),
-        React.createElement('button', { onClick: this.handleClose }, 'Close Modal')
-      )
+  render() {
+    return (
+      <div>
+        <h1>ReactModal2 Example: Redux</h1>
+        <button onClick={this.handleOpen.bind(this)}>Open Modal</button>
+        {this.props.isModalOpen && (
+          <Modal onClose={this.handleClose.bind(this)}>
+            <h1>Hello from Modal</h1>
+            <button onClick={this.handleClose.bind(this)}>Close Modal</button>
+          </Modal>
+        )}
+      </div>
     );
   }
-}));
+}
+
+Application = connect(state => ({ isModalOpen: state.isModalOpen }))(Application);
 
 /**
  * Init
  */
 
-var rootElement = document.getElementById('root');
+const rootElement = document.getElementById('root');
 ReactModal2.setApplicationElement(rootElement);
 
-var store = Redux.createStore(reducer);
-var dom = React.createElement(ReactRedux.Provider, { store: store },
-  React.createElement(Application)
-);
+const store = createStore(reducer);
 
-ReactDOM.render(dom, rootElement);
+render(
+  <Provider store={store}>
+    <Application/>
+  </Provider>
+, rootElement);
