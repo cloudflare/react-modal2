@@ -2,6 +2,7 @@
   "name": "react-modal2",
   "version": "2.0.0",
   "description": "Simple modal component for React.",
+  "repository": "thejameskyle/react-modal2",
   "main": "index.js",
   "scripts": {
     "test": "karma start",
