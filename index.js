@@ -2,7 +2,6 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
-var ReactGateway = require('react-gateway');
 var focusScope = require('a11y-focus-scope');
 var focusStore = require('a11y-focus-store');
 
@@ -78,21 +77,20 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    return React.createElement(ReactGateway, null,
+    return React.createElement('div', {
+      ref: 'backdrop',
+      className: this.props.backdropClassName,
+      style: this.props.backdropStyles,
+      onClick: this.handleBackdropClick
+    },
       React.createElement('div', {
-        className: this.props.backdropClassName,
-        style: this.props.backdropStyles,
-        onClick: this.handleBackdropClick
+        ref: 'modal',
+        className: this.props.modalClassName,
+        style: this.props.modalStyles,
+        onClick: this.handleModalClick,
+        tabIndex: '-1'
       },
-        React.createElement('div', {
-          ref: 'modal',
-          className: this.props.modalClassName,
-          style: this.props.modalStyles,
-          onClick: this.handleModalClick,
-          tabIndex: '-1'
-        },
-          this.props.children
-        )
+        this.props.children
       )
     );
   }

@@ -1,0 +1,53 @@
+*,
+::before,
+::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 2em auto;
+  padding: 0 2em;
+  max-width: 600px;
+  font: normal 1em/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  padding: 1em 2em;
+  border: none;
+  border-radius: 3px;
+  background: #36c;
+  color: white;
+  font: inherit;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.modal {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+  -moz-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+
+  background: white;
+  border-radius: 4px;
+
+  outline: none;
+}
+
+.modal h1 {
+  margin-top: 0;
+}
