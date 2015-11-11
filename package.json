@@ -1,7 +1,7 @@
 {
   "name": "react-modal2",
   "version": "2.0.0",
-  "description": "Stateless modal component for React.",
+  "description": "Simple modal component for React.",
   "main": "index.js",
   "scripts": {
     "test": "karma start",
