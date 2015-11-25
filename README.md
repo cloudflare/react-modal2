@@ -5,7 +5,7 @@
 - Unopionated
 - Stateless (dumb component)
 - Accessible
-- Built via [reusable](https://github.com/thejameskyle/react-gateway) [collection](https://github.com/thejameskyle/a11y-focus-scope) of [modules](https://github.com/thejameskyle/a11y-focus-store)
+- Built via [reusable](https://github.com/cloudflare/react-gateway) [collection](https://github.com/cloudflare/a11y-focus-scope) of [modules](https://github.com/cloudflare/a11y-focus-store)
 
 ## Installation
 
@@ -55,7 +55,7 @@ this:
 However, you likely want to render the modal somewhere else in the DOM (in most
 cases at the end of the `document.body`.
 
-For this there is a separate library called [`ReactGateway`](https://github.com/thejameskyle/react-gateway).
+For this there is a separate library called [`ReactGateway`](https://github.com/cloudflare/react-gateway).
 You can use it like this:
 
 ```js
@@ -181,7 +181,7 @@ parent component. For this reason there is no `isOpen` property to pass.
 #### How do I render the modal elsewhere in the DOM?
 
 ReactModal2 will render whereever you put it, you need to use a separate library
-to render it in another location. [`ReactGateway`](https://github.com/thejameskyle/react-gateway)
+to render it in another location. [`ReactGateway`](https://github.com/cloudflare/react-gateway)
 is the recommended solution, it's easy as:
 
 ```js
