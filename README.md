@@ -232,7 +232,7 @@ you need to let ReactModal2 what the root element for your application is.
 ```js
 import ReactModal2 from 'react-modal2';
 
-ReactModal2.setApplicationElement(document.getElementById('root'));
+ReactModal2.getApplicationElement = () => document.getElementById('application');
 ```
 
 ## FAQ
