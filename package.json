@@ -1,6 +1,6 @@
 {
   "name": "react-modal2",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Simple modal component for React.",
   "repository": "cloudflare/react-modal2",
   "main": "lib/index.js",
