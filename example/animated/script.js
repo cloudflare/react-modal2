@@ -1,8 +1,12 @@
 import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
-import ReactGateway from 'react-gateway';
+import {
+  Gateway,
+  GatewayDest,
+  GatewayProvider
+} from 'react-gateway';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
-import ReactModal2 from '../../';
+import ReactModal2 from '../../src/index';
 
 class Modal extends React.Component {
   static propTypes = {
@@ -23,7 +27,7 @@ class Modal extends React.Component {
 
   render() {
     return (
-      <ReactGateway>
+      <Gateway into="example">
         <CSSTransitionGroup
           transitionName='modal'
           transitionAppear={true}
@@ -43,7 +47,7 @@ class Modal extends React.Component {
             </ReactModal2>
           )}
         </CSSTransitionGroup>
-      </ReactGateway>
+      </Gateway>
     );
   }
 }
@@ -67,18 +71,22 @@ class Application extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>ReactModal2 Example: Animated</h1>
-        <button onClick={this.handleOpen.bind(this)}>Open Modal</button>
-        <Modal onClose={this.handleClose.bind(this)} isOpen={this.state.isModalOpen}>
-          <h1>Hello from Modal</h1>
-          <button onClick={this.handleClose.bind(this)}>Close Modal</button>
-        </Modal>
-      </div>
+      <GatewayProvider>
+        <div>
+          <div id="application">
+            <h1>ReactModal2 Example: Animated</h1>
+            <button onClick={this.handleOpen.bind(this)}>Open Modal</button>
+            <Modal onClose={this.handleClose.bind(this)} isOpen={this.state.isModalOpen}>
+              <h1>Hello from Modal</h1>
+              <button onClick={this.handleClose.bind(this)}>Close Modal</button>
+            </Modal>
+          </div>
+          <GatewayDest name="example"/>
+        </div>
+      </GatewayProvider>
     );
   }
 }
 
-const rootElement = document.getElementById('root');
-ReactModal2.setApplicationElement(rootElement);
-render(<Application/>, rootElement);
+ReactModal2.getApplicationElement = () => document.getElementById('application');
+render(<Application/>, document.getElementById('root'));

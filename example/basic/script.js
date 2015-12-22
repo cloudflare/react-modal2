@@ -1,7 +1,11 @@
 import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
-import ReactGateway from 'react-gateway';
-import ReactModal2 from '../../';
+import {
+  Gateway,
+  GatewayDest,
+  GatewayProvider
+} from 'react-gateway';
+import ReactModal2 from '../../src/index';
 
 class Modal extends React.Component {
   static propTypes = {
@@ -21,17 +25,17 @@ class Modal extends React.Component {
 
   render() {
     return (
-      <ReactGateway>
+      <Gateway into="example">
         <ReactModal2
           onClose={this.handleClose.bind(this)}
           closeOnEsc={this.props.closeOnEsc}
           closeOnBackdropClick={this.props.closeOnEsc}
 
-          backdropClassName='modal-backdrop'
-          modalClassName='modal'>
+          backdropClassName="modal-backdrop"
+          modalClassName="modal">
           {this.props.children}
         </ReactModal2>
-      </ReactGateway>
+      </Gateway>
     );
   }
 }
@@ -55,20 +59,24 @@ class Application extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>ReactModal2 Example: Basic</h1>
-        <button onClick={this.handleOpen.bind(this)}>Open Modal</button>
-        {this.state.isModalOpen && (
-          <Modal onClose={this.handleClose.bind(this)}>
-            <h1>Hello from Modal</h1>
-            <button onClick={this.handleClose.bind(this)}>Close Modal</button>
-          </Modal>
-        )}
-      </div>
+      <GatewayProvider>
+        <div>
+          <div id="application">
+            <h1>ReactModal2 Example: Basic</h1>
+            <button onClick={this.handleOpen.bind(this)}>Open Modal</button>
+            {this.state.isModalOpen && (
+              <Modal onClose={this.handleClose.bind(this)}>
+                <h1>Hello from Modal</h1>
+                <button onClick={this.handleClose.bind(this)}>Close Modal</button>
+              </Modal>
+            )}
+          </div>
+          <GatewayDest name="example"/>
+        </div>
+      </GatewayProvider>
     );
   }
 }
 
-const rootElement = document.getElementById('root');
-ReactModal2.setApplicationElement(rootElement);
-render(<Application/>, rootElement);
+ReactModal2.getApplicationElement = () => document.getElementById('application');
+render(<Application/>, document.getElementById('root'));

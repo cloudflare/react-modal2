@@ -2,8 +2,12 @@ import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
 import {createStore} from 'redux';
 import {Provider, connect} from 'react-redux';
-import ReactGateway from 'react-gateway';
-import ReactModal2 from '../../';
+import {
+  Gateway,
+  GatewayDest,
+  GatewayProvider
+} from 'react-gateway';
+import ReactModal2 from '../../src/index';
 
 /**
  * Constants
@@ -59,7 +63,7 @@ class Modal extends React.Component {
 
   render() {
     return (
-      <ReactGateway>
+      <Gateway into="example">
         <ReactModal2
           onClose={this.handleClose.bind(this)}
           closeOnEsc={this.props.closeOnEsc}
@@ -69,7 +73,7 @@ class Modal extends React.Component {
           modalClassName='modal'>
           {this.props.children}
         </ReactModal2>
-      </ReactGateway>
+      </Gateway>
     );
   }
 }
@@ -89,16 +93,21 @@ class Application extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>ReactModal2 Example: Redux</h1>
-        <button onClick={this.handleOpen.bind(this)}>Open Modal</button>
-        {this.props.isModalOpen && (
-          <Modal onClose={this.handleClose.bind(this)}>
-            <h1>Hello from Modal</h1>
-            <button onClick={this.handleClose.bind(this)}>Close Modal</button>
-          </Modal>
-        )}
-      </div>
+      <GatewayProvider>
+        <div>
+          <div id="application">
+            <h1>ReactModal2 Example: Redux</h1>
+            <button onClick={this.handleOpen.bind(this)}>Open Modal</button>
+            {this.props.isModalOpen && (
+              <Modal onClose={this.handleClose.bind(this)}>
+                <h1>Hello from Modal</h1>
+                <button onClick={this.handleClose.bind(this)}>Close Modal</button>
+              </Modal>
+            )}
+          </div>
+          <GatewayDest name="example"/>
+        </div>
+      </GatewayProvider>
     );
   }
 }
@@ -109,8 +118,7 @@ Application = connect(state => ({ isModalOpen: state.isModalOpen }))(Application
  * Init
  */
 
-const rootElement = document.getElementById('root');
-ReactModal2.setApplicationElement(rootElement);
+ReactModal2.getApplicationElement = () => document.getElementById('application');
 
 const store = createStore(reducer);
 
@@ -118,4 +126,4 @@ render(
   <Provider store={store}>
     <Application/>
   </Provider>
-, rootElement);
+, document.getElementById('root'));

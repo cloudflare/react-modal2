@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.0
+
+- Universal/Isomorphic modals
+
 ## v2.0.0
 
 - Remove `ReactGateway` from automatically being included. This is an

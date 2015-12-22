@@ -5,6 +5,7 @@
 - Unopionated
 - Stateless (dumb component)
 - Accessible
+- Universal/Isomorphic
 - Built via [reusable](https://github.com/cloudflare/react-gateway) [collection](https://github.com/cloudflare/a11y-focus-scope) of [modules](https://github.com/cloudflare/a11y-focus-store)
 
 ## Installation
@@ -55,15 +56,53 @@ this:
 However, you likely want to render the modal somewhere else in the DOM (in most
 cases at the end of the `document.body`.
 
-For this there is a separate library called [`ReactGateway`](https://github.com/cloudflare/react-gateway).
-You can use it like this:
+For this there is a separate library called
+[React Gateway](https://github.com/cloudflare/react-gateway). You can use it
+like this:
 
 ```js
-<ReactGateway to={document.body}>
-  <ReactModal2 ...>
-    ...
-  </ReactModal2>
-</ReactGateway>
+import {
+  Gateway,
+  GatewayDest,
+  GatewayProvider
+} from 'react-gateway';
+import ReactModal2 from 'react-modal2';
+
+class Application extends React.Component {
+  render() {
+    return (
+      <GatewayProvider>
+        <div class="app">
+          <div class="app-content">
+            <h1>My Application</h1>
+            <Gateway into="modal">
+              <ReactModal2 backdropClassName="modal-backdrop" modalClassName="modal">
+                ...
+              </ReactModal2>
+            </Gateway>
+          </div>
+          <GatewayDest name="modal" className="modal-container"/>
+        </div>
+      </GatewayProvider>
+    );
+  }
+}
+```
+
+Which will render as:
+
+```html
+<div class="app">
+  <div class="app-content">
+    <h1>My Application</h1>
+    <noscript/>
+  </div>
+  <div class="modal-container">
+    <div class="modal-backdrop">
+      <div class="modal">...</div>
+    </div>
+  </div>
+</div>
 ```
 
 Now this might seem like a lot to do every time you want to render a modal, but
@@ -73,8 +112,8 @@ animations, and behavior.
 
 ```js
 import React from 'react';
+import {Gateway} from 'react-gateway';
 import ReactModal2 from 'react-modal2';
-import ReactGateway from 'react-gateway';
 
 export default class MyCustomModal extends React.Component {
   static propTypes = {
@@ -92,7 +131,7 @@ export default class MyCustomModal extends React.Component {
 
   render() {
     return (
-      <ReactGateway>
+      <Gateway into="modal">
         <ReactModal2
           onClose={this.props.onClose}
           closeOnEsc={this.props.closeOnEsc}
@@ -101,18 +140,43 @@ export default class MyCustomModal extends React.Component {
           modalClassName='my-custom-modal-class'>
           {this.props.children}
         </ReactModal2>
-      </ReactGateway>
+      </Gateway>
     );
   }
 }
 ```
 
-Then you have your own ideal API for working with modals.
+Then simply setup your application once:
+
+```js
+import {
+  GatwayDest,
+  GatewayProvider
+} from 'react-gateway';
+
+export default class Application extends React.Component {
+  render() {
+    return (
+      <GatewayProvider>
+        <div class="app">
+          <div class="app-content">
+            ...
+          </div>
+          <GatewayDest name="modal" className="modal-container"/>
+        </div>
+      </GatewayProvider>
+    );
+  }
+}
+```
+
+Then you have your own ideal API for working with modals in any of your
+components.
 
 ```js
 import MyCustomModal from './my-custom-modal';
 
-export default class App extends React.Component {
+export default class MyComponent extends React.Component {
   state = {
     isModalOpen: false
   };
@@ -162,7 +226,8 @@ need to help it with.
 In order to "hide" your application from screenreaders while a modal is open
 you need to let ReactModal2 what the root element for your application is.
 
-> Note: The root element should not be `document.body`.
+> **Note:** The root element should not contain the `GatewayDest` or whereever
+> the modal is getting rendered. This will break all the things.
 
 ```js
 import ReactModal2 from 'react-modal2';
@@ -177,17 +242,3 @@ ReactModal2.setApplicationElement(document.getElementById('root'));
 ReactModal2 is designed to have no state, if you put it in the DOM then it will
 render. So if you don't want to show it then simply do not render it in your
 parent component. For this reason there is no `isOpen` property to pass.
-
-#### How do I render the modal elsewhere in the DOM?
-
-ReactModal2 will render whereever you put it, you need to use a separate library
-to render it in another location. [`ReactGateway`](https://github.com/cloudflare/react-gateway)
-is the recommended solution, it's easy as:
-
-```js
-<ReactGateway>
-  <ReactModal2 ...>
-    ...
-  </ReactModal2>
-</ReactGateway>
-```

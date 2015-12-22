@@ -1,12 +1,11 @@
-'use strict';
+import {expect} from 'chai';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
 
-var expect = require('chai').expect;
-var React = require('react');
-var ReactDOM = require('react-dom');
-var d = React.createElement;
-var TestUtils = require('react-addons-test-utils');
+import ReactModal2 from '../src/index';
 
-var ReactModal2 = require('./');
+console.log(ReactModal2);
 
 describe('ReactModal2', function() {
   beforeEach(function() {
@@ -24,7 +23,7 @@ describe('ReactModal2', function() {
     var called = false;
     var onClose = function() { called = true; };
 
-    var dom = d(ReactModal2, { onClose: onClose });
+    var dom = <ReactModal2 onClose={onClose}/>;
     var instance = ReactDOM.render(dom, this.root);
 
     instance.handleDocumentKeydown({ keyCode: 27 });
@@ -35,7 +34,7 @@ describe('ReactModal2', function() {
     var called = false;
     var onClose = function() { called = true; };
 
-    var dom = d(ReactModal2, { onClose: onClose, closeOnEsc: false });
+    var dom = <ReactModal2 onClose={onClose} closeOnEsc={false}/>;
     var instance = ReactDOM.render(dom, this.root);
 
     instance.handleDocumentKeydown({ keyCode: 27 });
@@ -46,7 +45,7 @@ describe('ReactModal2', function() {
     var called = false;
     var onClose = function() { called = true; };
 
-    var dom = d(ReactModal2, { onClose: onClose });
+    var dom = <ReactModal2 onClose={onClose}/>;
     var instance = ReactDOM.render(dom, this.root);
 
     TestUtils.Simulate.click(instance.refs.backdrop);
@@ -58,7 +57,7 @@ describe('ReactModal2', function() {
     var called = false;
     var onClose = function() { called = true; };
 
-    var dom = d(ReactModal2, { onClose: onClose, closeOnBackdropClick: false });
+    var dom = <ReactModal2 onClose={onClose} closeOnBackdropClick={false}/>;
     var instance = ReactDOM.render(dom, this.root);
 
     TestUtils.Simulate.click(instance.refs.backdrop);
@@ -70,7 +69,7 @@ describe('ReactModal2', function() {
     var called = false;
     var onClose = function() { called = true; };
 
-    var dom = d(ReactModal2, { onClose: onClose });
+    var dom = <ReactModal2 onClose={onClose}/>;
     var instance = ReactDOM.render(dom, this.root);
 
     TestUtils.Simulate.click(instance.refs.modal);
@@ -83,7 +82,7 @@ describe('ReactModal2', function() {
     document.body.appendChild(input);
     input.focus();
 
-    var dom = d(ReactModal2, { onClose: function() {} });
+    var dom = <ReactModal2 onClose={function() {}}/>;
     var instance = ReactDOM.render(dom, this.root);
 
     expect(instance.refs.modal).to.equal(document.activeElement);
@@ -96,7 +95,7 @@ describe('ReactModal2', function() {
     document.body.appendChild(input);
     input.focus();
 
-    var dom = d(ReactModal2, { onClose: function() {} });
+    var dom = <ReactModal2 onClose={function() {}}/>;
     ReactDOM.render(dom, this.root);
     ReactDOM.unmountComponentAtNode(this.root);
 
@@ -108,29 +107,29 @@ describe('ReactModal2', function() {
   it('should "hide" the applicationElement when mounted', function() {
     var applicationElement = document.createElement('div');
     document.body.appendChild(applicationElement);
-    ReactModal2.setApplicationElement(applicationElement);
+    ReactModal2.getApplicationElement = () => applicationElement;
 
-    var dom = d(ReactModal2, { onClose: function() {} });
+    var dom = <ReactModal2 onClose={function() {}}/>;
     ReactDOM.render(dom, this.root);
 
     expect(applicationElement.getAttribute('aria-hidden')).to.equal('true');
 
     document.body.removeChild(applicationElement);
-    ReactModal2.setApplicationElement(null);
+    ReactModal2.getApplicationElement = () => {};
   });
 
   it('should "unhide" the applicationElement when mounted', function() {
     var applicationElement = document.createElement('div');
     document.body.appendChild(applicationElement);
-    ReactModal2.setApplicationElement(applicationElement);
+    ReactModal2.getApplicationElement = () => applicationElement;
 
-    var dom = d(ReactModal2, { onClose: function() {} });
+    var dom = <ReactModal2 onClose={function() {}}/>;
     ReactDOM.render(dom, this.root);
     ReactDOM.unmountComponentAtNode(this.root);
 
     expect(applicationElement.getAttribute('aria-hidden')).to.equal(null);
 
     document.body.removeChild(applicationElement);
-    ReactModal2.setApplicationElement(null);
+    ReactModal2.getApplicationElement = () => {};
   });
 });

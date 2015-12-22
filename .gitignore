@@ -1,3 +1,4 @@
-node_modules/
+node_modules
 *.log
-examples/*/bundle.js
+lib
+coverage
