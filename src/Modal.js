@@ -41,14 +41,14 @@ export default class ReactModal2 extends React.Component {
   componentDidMount() {
     if (ExecutionEnvironment.canUseDOM) {
       setFocusOn(ReactModal2.getApplicationElement(), this.refs.modal);
-      document.addEventListener('keydown', this.handleDocumentKeydown.bind(this));
+      document.addEventListener('keydown', this.handleDocumentKeydown);
     }
   }
 
   componentWillUnmount() {
     if (ExecutionEnvironment.canUseDOM) {
       resetFocus(ReactModal2.getApplicationElement());
-      document.removeEventListener('keydown', this.handleDocumentKeydown.bind(this));
+      document.removeEventListener('keydown', this.handleDocumentKeydown);
     }
   }
 
