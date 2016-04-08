@@ -27,8 +27,10 @@
   "dependencies": {
     "a11y-focus-scope": "^1.1.0",
     "a11y-focus-store": "^1.0.0",
-    "exenv": "^1.2.0",
-    "react": "^0.14.2"
+    "exenv": "^1.2.0"
+  },
+  "peerDependencies": {
+    "react": "^0.14.2 || ^15.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.1.1",
