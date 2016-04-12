@@ -52,11 +52,12 @@ class Application extends React.Component {
   };
 
   onOpen() {
-    console.log('calling onOpen');
+    this.refs.button.style.background = '#333';
   }
 
   handleOpen() {
     this.setState({ isModalOpen: true });
+    console.log("I haven't access", this.refs.button);
   }
 
   handleClose() {
@@ -73,7 +74,8 @@ class Application extends React.Component {
             {this.state.isModalOpen && (
               <Modal onClose={this.handleClose.bind(this)} onAfterOpen={this.onOpen.bind(this)}>
                 <h1>Hello from Modal</h1>
-                <button onClick={this.handleClose.bind(this)}>Close Modal</button>
+                  In pri omittantur comprehensam, ea per mollis splendide pertinacia. Ea has nobis laboramus.
+                <button ref="button" onClick={this.handleClose.bind(this)}>Close Modal</button>
               </Modal>
             )}
           </div>
