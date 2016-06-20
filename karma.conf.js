@@ -110,7 +110,8 @@ module.exports = function(config) {
         'babelify'
       ].concat(args.istanbul && [
         ['browserify-istanbul', {
-          ignore: ['**/*.handlebars']
+          ignore: ['**/*.handlebars'],
+          instrumenter: require('isparta')
         }]
       ] || [])
     },
