@@ -150,7 +150,7 @@ Then simply setup your application once:
 
 ```js
 import {
-  GatwayDest,
+  GatewayDest,
   GatewayProvider
 } from 'react-gateway';
 
