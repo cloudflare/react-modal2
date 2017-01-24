@@ -72,8 +72,8 @@ class Application extends React.Component {
   render() {
     return (
       <GatewayProvider>
-        <div class="app">
-          <div class="app-content">
+        <div className="app">
+          <div className="app-content">
             <h1>My Application</h1>
             <Gateway into="modal">
               <ReactModal2 backdropClassName="modal-backdrop" modalClassName="modal">
@@ -158,8 +158,8 @@ export default class Application extends React.Component {
   render() {
     return (
       <GatewayProvider>
-        <div class="app">
-          <div class="app-content">
+        <div className="app">
+          <div className="app-content">
             ...
           </div>
           <GatewayDest name="modal" className="modal-container"/>
