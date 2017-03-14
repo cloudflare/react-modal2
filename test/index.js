@@ -48,7 +48,7 @@ describe('ReactModal2', function() {
     var dom = <ReactModal2 onClose={onClose}/>;
     var instance = ReactDOM.render(dom, this.root);
 
-    TestUtils.Simulate.click(instance.refs.backdrop);
+    TestUtils.Simulate.click(instance.backdrop);
 
     expect(called).to.be.true;
   });
@@ -60,7 +60,7 @@ describe('ReactModal2', function() {
     var dom = <ReactModal2 onClose={onClose} closeOnBackdropClick={false}/>;
     var instance = ReactDOM.render(dom, this.root);
 
-    TestUtils.Simulate.click(instance.refs.backdrop);
+    TestUtils.Simulate.click(instance.backdrop);
 
     expect(called).to.be.false;
   });
@@ -72,7 +72,7 @@ describe('ReactModal2', function() {
     var dom = <ReactModal2 onClose={onClose}/>;
     var instance = ReactDOM.render(dom, this.root);
 
-    TestUtils.Simulate.click(instance.refs.modal);
+    TestUtils.Simulate.click(instance.modal);
 
     expect(called).to.be.false;
   });
@@ -85,7 +85,7 @@ describe('ReactModal2', function() {
     var dom = <ReactModal2 onClose={function() {}}/>;
     var instance = ReactDOM.render(dom, this.root);
 
-    expect(instance.refs.modal).to.equal(document.activeElement);
+    expect(instance.modal).to.equal(document.activeElement);
 
     document.body.removeChild(input);
   });
