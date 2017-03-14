@@ -40,7 +40,7 @@ export default class ReactModal2 extends React.Component {
 
   componentDidMount() {
     if (ExecutionEnvironment.canUseDOM) {
-      setFocusOn(ReactModal2.getApplicationElement(), this.refs.modal);
+      setFocusOn(ReactModal2.getApplicationElement(), this.modal);
       document.addEventListener('keydown', this.handleDocumentKeydown);
     }
   }
@@ -70,11 +70,11 @@ export default class ReactModal2 extends React.Component {
 
   render() {
     return (
-      <div ref="backdrop"
+      <div ref={i => this.backdrop = i}
         className={this.props.backdropClassName}
         style={this.props.backdropStyles}
         onClick={this.handleBackdropClick}>
-        <div ref="modal"
+        <div ref={i => this.modal = i}
           className={this.props.modalClassName}
           style={this.props.modalStyles}
           onClick={this.handleModalClick}
