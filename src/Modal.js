@@ -22,6 +22,7 @@ export default class ReactModal2 extends React.Component {
 
   static propTypes = {
     onClose: React.PropTypes.func.isRequired,
+    onAfterOpen: React.PropTypes.func,
 
     closeOnEsc: React.PropTypes.bool,
     closeOnBackdropClick: React.PropTypes.bool,
@@ -43,6 +44,7 @@ export default class ReactModal2 extends React.Component {
       setFocusOn(ReactModal2.getApplicationElement(), this.modal);
       document.addEventListener('keydown', this.handleDocumentKeydown);
     }
+    (this.props.onAfterOpen) && this.props.onAfterOpen();
   }
 
   componentWillUnmount() {

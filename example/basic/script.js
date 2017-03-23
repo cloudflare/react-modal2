@@ -10,6 +10,7 @@ import ReactModal2 from '../../src/index';
 class Modal extends React.Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
+    onAfterOpen:  PropTypes.func,
     closeOnEsc: PropTypes.bool,
     closeOnBackdropClick: PropTypes.bool
   };
@@ -24,13 +25,14 @@ class Modal extends React.Component {
   }
 
   render() {
+    const { closeOnEsc, onAfterOpen } = this.props;
     return (
       <Gateway into="example">
         <ReactModal2
           onClose={this.handleClose.bind(this)}
-          closeOnEsc={this.props.closeOnEsc}
-          closeOnBackdropClick={this.props.closeOnEsc}
-
+          closeOnEsc={closeOnEsc}
+          closeOnBackdropClick={closeOnEsc}
+          onAfterOpen={onAfterOpen}
           backdropClassName="modal-backdrop"
           modalClassName="modal">
           {this.props.children}
@@ -49,8 +51,13 @@ class Application extends React.Component {
     isModalOpen: false
   };
 
+  onOpen() {
+    this.refs.button.style.background = '#333';
+  }
+
   handleOpen() {
     this.setState({ isModalOpen: true });
+    console.log("I haven't access", this.refs.button);
   }
 
   handleClose() {
@@ -65,9 +72,10 @@ class Application extends React.Component {
             <h1>ReactModal2 Example: Basic</h1>
             <button onClick={this.handleOpen.bind(this)}>Open Modal</button>
             {this.state.isModalOpen && (
-              <Modal onClose={this.handleClose.bind(this)}>
+              <Modal onClose={this.handleClose.bind(this)} onAfterOpen={this.onOpen.bind(this)}>
                 <h1>Hello from Modal</h1>
-                <button onClick={this.handleClose.bind(this)}>Close Modal</button>
+                  In pri omittantur comprehensam, ea per mollis splendide pertinacia. Ea has nobis laboramus.
+                <button ref="button" onClick={this.handleClose.bind(this)}>Close Modal</button>
               </Modal>
             )}
           </div>
