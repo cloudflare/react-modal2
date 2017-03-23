@@ -206,9 +206,8 @@ export default class MyComponent extends React.Component {
 ```
 
 ## Props
-
 | Name | Type | Description |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | `onClose` | `Function` | **Required.** A callback to handle an event that is attempting to close the modal. |
 | `closeOnEsc` | `Boolean` | Should this modal call `onClose` when the `esc` key is pressed? |
 | `closeOnBackdropClick` | `Boolean` | Should this modal call `onClose` when the backdrop is clicked? |
@@ -216,6 +215,8 @@ export default class MyComponent extends React.Component {
 | `modalClassName` | `String` | An optional `className` for the modal element. |
 | `backdropStyles` | `Object` | Optional `style` for the backdrop element. |
 | `modalStyles` | `Object` | Optional `style` for the modal element. |
+
+
 
 ## Accessibility
 
