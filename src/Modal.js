@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import focusScope from 'a11y-focus-scope';
 import focusStore from 'a11y-focus-store';
 import ExecutionEnvironment from 'exenv';
@@ -21,16 +22,16 @@ export default class ReactModal2 extends React.Component {
   }
 
   static propTypes = {
-    onClose: React.PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
 
-    closeOnEsc: React.PropTypes.bool,
-    closeOnBackdropClick: React.PropTypes.bool,
+    closeOnEsc: PropTypes.bool,
+    closeOnBackdropClick: PropTypes.bool,
 
-    backdropClassName: React.PropTypes.string,
-    backdropStyles: React.PropTypes.object,
+    backdropClassName: PropTypes.string,
+    backdropStyles: PropTypes.object,
 
-    modalClassName: React.PropTypes.string,
-    modalStyles: React.PropTypes.object
+    modalClassName: PropTypes.string,
+    modalStyles: PropTypes.object
   };
 
   static defaultProps = {
