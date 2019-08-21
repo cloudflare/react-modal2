@@ -65,18 +65,34 @@ describe('ReactModal2', function() {
     expect(called).to.be.false;
   });
 
-  it('should not call `onClose` when the modal is clicked', function() {
+  it('should not call `onClose` when the modal is the start target of a click', function() {
     var called = false;
     var onClose = function() { called = true; };
 
     var dom = <ReactModal2 onClose={onClose}/>;
     var instance = ReactDOM.render(dom, this.root);
 
-    TestUtils.Simulate.click(instance.modal);
+    TestUtils.Simulate.mouseDown(instance.modal);
+    TestUtils.Simulate.mouseUp(instance.backdrop);
+    TestUtils.Simulate.click(instance.backdrop);
 
     expect(called).to.be.false;
   });
 
+  it('should not call `onClose` when the modal is the end target of a click', function() {
+    var called = false;
+    var onClose = function() { called = true; };
+
+    var dom = <ReactModal2 onClose={onClose}/>;
+    var instance = ReactDOM.render(dom, this.root);
+
+    TestUtils.Simulate.mouseDown(instance.backdrop);
+    TestUtils.Simulate.mouseUp(instance.modal);
+    TestUtils.Simulate.click(instance.backdrop);
+
+    expect(called).to.be.false;
+  });
+  
   it('should scope the focus on the modal when mounted', function() {
     var input = document.createElement('input');
     document.body.appendChild(input);
