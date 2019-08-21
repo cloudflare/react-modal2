@@ -39,6 +39,8 @@ export default class ReactModal2 extends React.Component {
     closeOnBackdropClick: true
   };
 
+  preventModalClose = false
+
   componentDidMount() {
     if (ExecutionEnvironment.canUseDOM) {
       setFocusOn(ReactModal2.getApplicationElement(), this.modal);
@@ -60,13 +62,15 @@ export default class ReactModal2 extends React.Component {
   }
 
   handleBackdropClick = () => {
-    if (this.props.closeOnBackdropClick) {
+    if (this.props.closeOnBackdropClick && !this.preventModalClose) {
       this.props.onClose();
     }
+    
+    this.preventModalClose = false
   }
 
   handleModalClick = event => {
-    event.stopPropagation();
+    this.preventModalClose = true
   }
 
   render() {
@@ -78,7 +82,8 @@ export default class ReactModal2 extends React.Component {
         <div ref={i => this.modal = i}
           className={this.props.modalClassName}
           style={this.props.modalStyles}
-          onClick={this.handleModalClick}
+          onMouseDown={this.handleModalClick}
+          onMouseUp={this.handleModalClick}
           tabIndex="-1">
           {this.props.children}
         </div>
