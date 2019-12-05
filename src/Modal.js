@@ -39,7 +39,8 @@ export default class ReactModal2 extends React.Component {
     closeOnBackdropClick: true
   };
 
-  preventModalClose = false
+  backdropMouseDown = false
+  backdropMouseUp = false
 
   componentDidMount() {
     if (ExecutionEnvironment.canUseDOM) {
@@ -61,16 +62,29 @@ export default class ReactModal2 extends React.Component {
     }
   }
 
+  handleBackdropMouseDown = event => {
+    this.backdropMouseDown = !this.modal.contains(event.target)
+  }
+
+  handleBackdropMouseUp = event => {
+    this.backdropMouseUp = !this.modal.contains(event.target)
+  }
+
   handleBackdropClick = () => {
-    if (this.props.closeOnBackdropClick && !this.preventModalClose) {
+    if (
+      this.props.closeOnBackdropClick &&
+      this.backdropMouseDown &&
+      this.backdropMouseUp
+    ) {
       this.props.onClose();
     }
     
-    this.preventModalClose = false
+    this.backdropMouseDown = false
+    this.backdropMouseUp = false
   }
 
   handleModalClick = event => {
-    this.preventModalClose = true
+    event.stopPropagation();
   }
 
   render() {
@@ -78,12 +92,13 @@ export default class ReactModal2 extends React.Component {
       <div ref={i => this.backdrop = i}
         className={this.props.backdropClassName}
         style={this.props.backdropStyles}
+        onMouseDown={this.handleBackdropMouseDown}
+        onMouseUp={this.handleBackdropMouseUp}
         onClick={this.handleBackdropClick}>
         <div ref={i => this.modal = i}
           className={this.props.modalClassName}
           style={this.props.modalStyles}
-          onMouseDown={this.handleModalClick}
-          onMouseUp={this.handleModalClick}
+          onClick={this.handleModalClick}
           tabIndex="-1">
           {this.props.children}
         </div>
