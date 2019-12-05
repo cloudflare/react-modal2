@@ -48,6 +48,8 @@ describe('ReactModal2', function() {
     var dom = <ReactModal2 onClose={onClose}/>;
     var instance = ReactDOM.render(dom, this.root);
 
+    TestUtils.Simulate.mouseDown(instance.backdrop);
+    TestUtils.Simulate.mouseUp(instance.backdrop);
     TestUtils.Simulate.click(instance.backdrop);
 
     expect(called).to.be.true;
@@ -60,6 +62,8 @@ describe('ReactModal2', function() {
     var dom = <ReactModal2 onClose={onClose} closeOnBackdropClick={false}/>;
     var instance = ReactDOM.render(dom, this.root);
 
+    TestUtils.Simulate.mouseDown(instance.backdrop);
+    TestUtils.Simulate.mouseUp(instance.backdrop);
     TestUtils.Simulate.click(instance.backdrop);
 
     expect(called).to.be.false;
